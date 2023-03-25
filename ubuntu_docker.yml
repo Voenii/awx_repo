@@ -2,6 +2,8 @@
 - name: install Docker
   hosts: all
   become: true
+  become_method: sudo
+  become_user: root
   tasks:
     - name: Install apt-transport-https
       ansible.builtin.apt:
