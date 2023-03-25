@@ -6,10 +6,6 @@
   become_user: root
 
   tasks:
-    - name: update apt list
-      apt:
-        update_cache: yes
-
     - name: Install apt-transport-https
       ansible.builtin.apt:
         name:
