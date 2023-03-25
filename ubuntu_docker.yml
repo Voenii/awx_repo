@@ -2,13 +2,15 @@
 - name: install Docker
   hosts: all
   become: true
+  become_method: sudo
+  become_user: anstest
 
   tasks:
   - tasks:
     - name: update apt list
       apt:
         update_cache: yes
-        
+
     - name: Install apt-transport-https
       ansible.builtin.apt:
         name:
