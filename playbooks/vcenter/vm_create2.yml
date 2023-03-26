@@ -65,7 +65,7 @@
     local_action:
       module: wait_for
       timeout: 300
-      host: "{{ vm_info.instance.hostname }}"
+      host: "{{ vm_info.instance.ip_address }}"
       port: 22
       state: started
   
