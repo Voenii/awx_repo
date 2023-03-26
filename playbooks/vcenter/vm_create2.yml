@@ -1,0 +1,63 @@
+---
+- name: Create and Provision Ubuntu Server on vCenter
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Set vCenter Facts
+      vmware_guest_facts:
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        validate_certs: no
+        datacenter: "{{ vcenter_datacenter }}"
+      register: vcenter_facts
+    
+    - name: Create Ubuntu Server VM
+      vmware_guest:
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        validate_certs: no
+        datacenter: "{{ vcenter_datacenter }}"
+        cluster: "{{ vcenter_cluster }}"
+        datastore: "{{ vcenter_datastore }}"
+        folder: "/"
+        name: "{{ vm_name }}"
+        guest_id: "ubuntu64Guest"
+        disk:
+          - size_gb: "{{ vm_disk_size_gb }}"
+            type: thin
+            datastore: "{{ vcenter_datastore }}"
+        hardware:
+          memory_mb: "{{ vm_memory_mb }}"
+          num_cpus: "{{ vm_cpus }}"
+        networks:
+          - name: "{{ vm_network_name }}"
+            start_connected: yes
+        state: poweredon
+      register: vm
+      
+    - name: Wait for VM to boot up
+      wait_for:
+        host: "{{ vm.ip_address }}"
+        port: 22
+        delay: 10
+        timeout: 300
+      when: vm is defined and vm.guest.ip_address is defined
+      
+    - name: Mount Ubuntu ISO on VM
+      vmware_vm_shell:
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_username }}"
+        password: "{{ vcenter_password }}"
+        validate_certs: no
+        vm_id: "{{ vm.instance.uuid }}"
+        cmd: "esxcli vm cdrom attach -n '{{ vm_name }}' -t device -r 'location of the ubuntu iso file' -M client"
+      when: vm is defined and vm.guest.ip_address is defined
+      
+    - name: Install Ubuntu Server
+      wait_for:
+        host: "{{ vm.guest.ip_address }}"
+        port: 22
+        delay: 10
+       
