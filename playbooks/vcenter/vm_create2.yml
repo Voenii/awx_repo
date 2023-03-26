@@ -1,7 +1,12 @@
 ---
 - name: Create and Provision Ubuntu Server on vCenter
   hosts: localhost
-  gather_facts: false
+  become: false
+  #gather_facts: false
+  collections:
+    - community.vmware
+  #pre_tasks:
+  #  - include_vars: vars.yml
   tasks:
     - name: Set vCenter Facts
       vmware_guest_facts:
