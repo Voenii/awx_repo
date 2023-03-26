@@ -2,6 +2,8 @@
 - name: blockinfile module demo
   hosts: all
   become: true
+  become_method: sudo
+  become_user: root
   tasks:
     - name: Generate /etc/hosts file
       ansible.builtin.blockinfile:
