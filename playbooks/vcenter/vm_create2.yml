@@ -42,17 +42,17 @@
   
   - name: Konfiguriere virtuelle Maschine
     vmware_guest:
-      vcenter_hostname: "{{ vcenter_hostname }}"
+      hostname: "{{ vcenter_hostname }}"
       username: "{{ vcenter_username }}"
       password: "{{ vcenter_password }}"
       datacenter: "{{ vcenter_datacenter }}"
       name: "{{ vm_name }}"
-      folder: "/"
-      guest_id: ubuntu64Guest
+      folder: "{{ vcenter_destination_folder }}"
+      guest_id: "{{ vm_guestid }}"
       hardware:
         memory_mb: "{{ vm_hw_ram_mb }}"
         num_cpus: "{{ vm_hw_cpu_n }}"
-        scsi: paravirtual
+        scsi: "{{ vm_hw_scsi }}"
         devices:
         - cdrom:
             iso_path: "{{ ubuntu_iso_local_path }}"
