@@ -53,11 +53,10 @@
         memory_mb: "{{ vm_hw_ram_mb }}"
         num_cpus: "{{ vm_hw_cpu_n }}"
         scsi: "{{ vm_hw_scsi }}"
-        devices:
-        - cdrom:
-            iso_path: "{{ ubuntu_iso_local_path }}"
-            start_connected: yes
-            type: client
+      cdrom:
+        iso_path: "{{ ubuntu_iso_local_path }}"
+        start_connected: yes
+        type: iso
       state: poweredon
     register: vm_info
   
