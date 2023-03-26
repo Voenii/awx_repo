@@ -8,14 +8,14 @@
   #pre_tasks:
   #  - include_vars: vars.yml
   tasks:
-    - name: Set vCenter Facts
-      vmware_guest_facts:
-        hostname: "{{ vcenter_hostname }}"
-        username: "{{ vcenter_username }}"
-        password: "{{ vcenter_password }}"
-        validate_certs: no
-        datacenter: "{{ vcenter_datacenter }}"
-      register: vcenter_facts
+  #  - name: Set vCenter Facts
+  #    vmware_guest_facts:
+  #      hostname: "{{ vcenter_hostname }}"
+  #      username: "{{ vcenter_username }}"
+  #      password: "{{ vcenter_password }}"
+  #      validate_certs: no
+  #      datacenter: "{{ vcenter_datacenter }}"
+  #    register: vcenter_facts
     
     - name: Create Ubuntu Server VM
       vmware_guest:
