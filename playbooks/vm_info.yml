@@ -2,11 +2,11 @@
 - name: info vm demo
   hosts: localhost
   become: false
-  gather_facts: false
+  #gather_facts: false
   collections:
     - community.vmware
-  pre_tasks:
-    - include_vars: vars.yml
+  #pre_tasks:
+    #- include_vars: vars.yml
   tasks:
     - name: get VM info
       vmware_guest_info:
