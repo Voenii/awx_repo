@@ -1,0 +1,13 @@
+---
+- name: reboot module demo
+  hosts: all
+  become: true
+  become_method: sudo
+  become_user: root
+  tasks:
+    - name: reboot host(s)
+      ansible.builtin.reboot:
+        msg: "reboot by ansible"
+        pre_reboot_delay: 5
+        post_reboot_delay: 10
+        test_command: "whoami"
